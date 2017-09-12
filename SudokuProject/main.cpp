@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include<sstream>
+#include<string>
  
 using namespace std;
  
@@ -181,18 +183,32 @@ void init(int difficulty)
     //generateSudoku(difficulty);
 }
  
-int main()
+int main(int argc,char *argv[])
 {
+	string str;
+	if(argc==3)
+	{
+		str=argv[2];
+	} 
+	
+	int n=0;
+	for(int i=0;i<str.size();i++)
+	{
+		if(str[i]>'9'||str[i]<'0')
+		n=-1;
+	}
+	
+	
 	FILE *fp;
 	fp=fopen("sudoku.txt","a"); 
-    int d;
-    int n=0;
-	scanf("%d",&n);
-	if(n<=0)
+    
+	if(n==-1)
 	{
-		printf("ÊäÈëÓÐÎó£¡\n");
-		//scanf("%d",&n);
+		printf("ÊäÈë´íÎó£¡\n");
+		return 0;
 	} 
+	n=atoi(str.c_str()); 
+	 
     while (n--)
     {
         /*cout << "Please select the difficulty(1~4), input 0 to exit: ";
