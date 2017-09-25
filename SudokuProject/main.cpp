@@ -29,9 +29,15 @@ void centerInit()
 {
 	src.clear();
     for (int i = 0; i < N; ++i)
+    	if(i!=2)
         src.push_back(i + 1);
     random_shuffle(src.begin(), src.end()); // Ëæ»ú»¯ÐòÁÐ
- 
+    src.push_back(3);
+ 	//for (std::vector<int>::iterator m = src.begin(); m != src.end(); m++ )
+ 	//{
+ 	//	cout << *m<<" ";
+	// }
+	// cout <<"\n";
     int k = 0;
     for (int i = 3; i < 6; ++i)
         for (int j = 3; j < 6; ++j)
@@ -175,7 +181,7 @@ void generateSudoku(int difficulty)
 */
 void init(int difficulty)
 {
-    srand(time(NULL));
+   
     memset(table, 0, sizeof(table));
     centerInit();
     crossInit();
@@ -208,7 +214,11 @@ int main(int argc,char *argv[])
 		return 0;
 	} 
 	n=atoi(str.c_str()); 
-	 
+	/* srand(time(NULL));
+	int n; 
+	 cin >>n;
+	 FILE *fp;
+	fp=fopen("sudoku.txt","a"); */
     while (n--)
     {
         /*cout << "Please select the difficulty(1~4), input 0 to exit: ";
