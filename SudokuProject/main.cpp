@@ -8,9 +8,10 @@
  
 using namespace std;
  
+ FILE *fp;
 const int N = 9;
 vector<int> src;
-int table[N][N];
+int table[N][N],n=0;
  
 void ouput(FILE *fp)
 {
@@ -24,10 +25,17 @@ void ouput(FILE *fp)
     }
 }
  
+ void swap(int &a,int &b){
+    int temp=a;
+    a=b;
+    b=temp;
+}
+
+
 // 初始化中间的九宫格
 void centerInit()
 {
-	src.clear();
+	/*src.clear();
     for (int i = 0; i < N; ++i)
     	if(i!=2)
         src.push_back(i + 1);
@@ -41,7 +49,7 @@ void centerInit()
     int k = 0;
     for (int i = 3; i < 6; ++i)
         for (int j = 3; j < 6; ++j)
-            table[i][j] = src[k++];
+            table[i][j] = src[k++];*/
 }
  
 // 由中间的九宫格交叉变换，初始化上下左右四个九宫格
@@ -182,13 +190,49 @@ void generateSudoku(int difficulty)
 void init(int difficulty)
 {
    
-    memset(table, 0, sizeof(table));
-    centerInit();
+    //memset(table, 0, sizeof(table));
+    //centerInit();
     crossInit();
     cornerInit();
     //generateSudoku(difficulty);
 }
  
+ void perm(int list[],int low,int high){
+    if(low==high){   //当low==high时,此时list就是其中一个排列,输出list
+        //for(int i=0;i<=low;i++)
+            //cout<<list[i];
+        //cout<<endl;
+        
+        int k = 0;
+    for (int i = 3; i < 6; ++i)
+        for (int j = 3; j < 6; ++j)
+            {
+            	table[i][j] = list[k++];
+            	//cout<<table[i][j]<<" ";
+			}
+			//cout<<endl;
+            n--;
+            if(n>=0)
+            {
+            	init(1);
+        ouput(fp);
+        fprintf(fp,"\n");//cout<<endl;
+			}
+			else 
+			{
+				fclose(fp);
+				exit(1);
+			}
+            
+    }else{
+        for(int i=low;i<=high;i++){//每个元素与第一个元素交换
+            swap(list[i],list[low]); 
+            perm(list,low+1,high); //交换后,得到子序列,用函数perm得到子序列的全排列
+            swap(list[i],list[low]);//最后,将元素交换回来,复原,然后交换另一个元素
+        }
+    }
+}
+
 int main(int argc,char *argv[])
 {
 	string str;
@@ -197,7 +241,7 @@ int main(int argc,char *argv[])
 		str=argv[2];
 	} 
 	
-	int n=0;
+	//int n=0;
 	for(int i=0;i<str.size();i++)
 	{
 		if(str[i]>'9'||str[i]<'0')
@@ -205,7 +249,7 @@ int main(int argc,char *argv[])
 	}
 	
 	
-	FILE *fp;
+	//FILE *fp;
 	fp=fopen("sudoku.txt","a"); 
     
 	if(n==-1)
@@ -218,19 +262,24 @@ int main(int argc,char *argv[])
 	int n; 
 	 cin >>n;
 	 FILE *fp;
-	fp=fopen("sudoku.txt","a"); */
+	fp=fopen("sudoku.txt","a"); 
     while (n--)
     {
-        /*cout << "Please select the difficulty(1~4), input 0 to exit: ";
+        cout << "Please select the difficulty(1~4), input 0 to exit: ";
         cin >> d;
         if (d == 0)
         {
             break;
-        }*/
+        }
+        
         init(1);
         ouput(fp);
         fprintf(fp,"\n");//cout<<endl;
-    }
+    }*/
+    
+    int list[9]={1,2,4,5,6,7,8,9,3};
+	perm(list,0,7);
+
  	fclose(fp);
     return 0;
 }
