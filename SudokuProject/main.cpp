@@ -250,7 +250,7 @@ int main(int argc,char *argv[])
 	
 	
 	//FILE *fp;
-	fp=fopen("sudoku.txt","a"); 
+	fp=fopen("sudoku.txt","w"); 
     
 	if(n==-1)
 	{
